@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+$white: hsl(0, 0%, 100%);
+$gray: hsl(0, 0%, 90%);
+$main-clr: hsl(217, 100%, 61%);
+
+@mixin inlineFlex() {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@mixin flexCenter() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  background-color: $white;
+  min-height: 100vh;
+
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+header {
+  @include inlineFlex();
+  justify-content: space-between;
+  padding: 1rem;
+
+  .logo,
+  .link {
+    @include inlineFlex;
+    align-items: center;
+  }
+
+  svg {
+    font-size: 1.3rem;
+  }
+}
+
+.btn-wrapper {
+  @include flexCenter();
+  margin-bottom: 3rem;
+
+  .btn {
+    height: 40px;
+    width: 200px;
+    border: 2px solid $main-clr;
+    transition: all 0.5s ease-in 0s;
+    background: transparent none repeat scroll 0% 0%;
+
+    color: $main-clr;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-within {
+      border-radius: 60px;
+      border-color: $main-clr;
+      background: $main-clr none repeat scroll 0% 0%;
+      color: $white;
+    }
+  }
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.player-side,
+.computer-side {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 1rem;
+
+  .field {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+
+    width: 350px;
+    height: 350px;
+    border: 3px solid $gray;
+  }
+
+  .field-title {
+    text-align: center;
+  }
+}
+
+.player-side {
+  .field-title {
+    grid-column-start: 2;
+  }
+}
+
+.ships {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &.player-ships {
+    align-items: flex-end;
+  }
+
+  &.computer-ships {
+    align-items: flex-start;
+  }
+
+  .ship-wrapper {
+    @include inlineFlex();
+    gap: 0.3rem;
+
+    .cube {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: $gray;
+    }
+
+    &.active .cube {
+      background-color: $main-clr  !important;
+    }
+  }
+}
+
+@media (max-width: 50rem) {
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 28rem) {
+  .link {
+    span {
+      display: none;
+    }
+  }
+
+  header {
+    svg {
+      font-size: 1.5rem;
+    }
+  }
+}

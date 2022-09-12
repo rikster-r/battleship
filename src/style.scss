@@ -122,6 +122,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-top: 3px;
 
   &.player-ships {
     align-items: flex-end;

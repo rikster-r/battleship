@@ -54,6 +54,35 @@ describe('Gameboard ships tests', () => {
     expect(game.ships.get(4).y).toEqual(undefined);
   });
 
-  
+  test('should receive attack for horizontal ship', () => {
+    game.changeShipCoords(5, 5, 5);
+
+    game.receiveAttack(6, 5);
+    expect(game.ships.get(5).hits).toEqual([false, true, false]);
+  });
+
+  test('should receive attack for vertical ship', () => {
+    game.changeShipCoords(5, 5, 5, true);
+
+    game.receiveAttack(5, 6);
+    expect(game.ships.get(5).hits).toEqual([false, true, false]);
+  })
+
+  test('should destroy ship after all succesful hits', () => {
+    game.changeShipCoords(5, 5, 5);
+
+    game.receiveAttack(5, 5);
+    game.receiveAttack(6, 5);
+    game.receiveAttack(7, 5);
+
+    expect(game.ships.get(5).hits).toEqual([true, true, true]);
+  })
+
+  test('should store missed attack', () => {
+    game.changeShipCoords(5, 5, 5);
+
+    game.receiveAttack(8, 8);
+    expect(Array.from(game.missed)).toEqual([[8, 8]]);
+  })
 })
 

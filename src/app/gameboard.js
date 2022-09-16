@@ -15,7 +15,7 @@ export class Gameboard {
       [7, new Ship(4)],
       [8, new Ship(4)],
     ]);
-    this.missed = [];
+    this.missed = new Set();
   }
 
   changeShipCoords(id, x, y, vertical = false) {
@@ -53,14 +53,45 @@ export class Gameboard {
   }
 
   receiveAttack(x, y) {
-    this.ships.forEach(ship => {
+    if (x < 1 || x > 10) return;
+    if (y < 1 || y > 10) return;
+    let notFound = true;
+
+    for (const ship of this.ships.values()) { //used for because i needed break
       if (ship.hasCell(x, y)) {
-        const index = (ship.vertical) ? x - ship.x : y - ship.y;
+        const index = (ship.vertical) ? y - ship.y : x - ship.x;
         ship.hit(index);
-      } else {
-        this.missed.push([x, y]);
+        notFound = false;
+
+        if (ship.isSunk()) this.#missSurroundingCells(ship);
+        break;
       }
-    });
+    }
+
+    if (notFound) {
+      this.missed.add([x, y]);
+    }
+  }
+
+  #missSurroundingCells(ship) {
+    if (ship.vertical) {
+      for (let i = -1; i <= ship.length; i++) {
+        this.missed.add([ship.x - 1 , ship.y + i]);
+        this.missed.add([ship.x + 1 , ship.y + i]);
+      }
+
+      this.missed.add([ship.x, ship.y - 1]);
+      this.missed.add([ship.x, ship.endY + 1]);
+      
+    } else {
+      for (let i = -1; i <= ship.length; i++) {
+        this.missed.add([ship.x + i, ship.y - 1]);
+        this.missed.add([ship.x + i, ship.y + 1]);
+      }
+
+      this.missed.add([ship.x - 1, ship.y]);
+      this.missed.add([ship.endX + 1, ship.y]);
+    }
   }
 
   areShipsSunk() {

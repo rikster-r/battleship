@@ -18,6 +18,6 @@ export class Ship {
   }
 
   hasCell(x, y) {
-    return ((this.x <= x) && (x <= this.endX)) && ((this.y <= y) && (y <= this.endY));
+    return ((this.x - 1 <= x) && (x <= this.endX + 1) && (this.y - 1 <= y) && (y <= this.endY + 1));
   }
 }

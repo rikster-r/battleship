@@ -28,28 +28,26 @@ export class Gameboard {
   }
 
   #validateCoords(x, y, length, vertical, id) {
-    let valid = true;
+    if (x + length - 1 > 10) return false;
+    if (y > 10) return false;
+    if (vertical && y + length - 1 > 10) return false;
+    if (x < 1 || y < 1) return false;
+    if (typeof x != 'number' || typeof y != 'number') return false;
 
-    if (x + length - 1 > 10) valid = false;
-    if (y > 10) valid = false;
-    if (vertical && y + length - 1 > 10) valid = false;
-    if (x < 1 || y < 1) valid = false;
-    if (typeof x != 'number' || typeof y != 'number') valid = false;
+    for (let [shipId, ship] of this.ships.entries()) {
+      if (shipId === id) continue; //skip if checking for our ship itself
+      if (ship.length === undefined) continue;
 
-    this.ships.forEach((ship, shipId) => { //check if coords conflict with other ships
-      if (shipId === id) return; //skip if checking for our ship itself
-      if (ship.length === undefined) return;
-
-      for (let i = 0; i < length; i++) { //loop for every cell of our ship
+      for (let i = 0; i <= length; i++) { //loop for every cell of our ship
         if (vertical) {
-          if (ship.hasCell(x, y + i)) valid = false;
+          if (ship.hasCell(x, y + i)) return false;
         } else {
-          if (ship.hasCell(x + i, y)) valid = false;
+          if (ship.hasCell(x + i, y)) return false;
         }
       }
-    })
+    }
 
-    return valid;
+    return true;
   }
 
   receiveAttack(x, y) {
@@ -76,13 +74,13 @@ export class Gameboard {
   #missSurroundingCells(ship) {
     if (ship.vertical) {
       for (let i = -1; i <= ship.length; i++) {
-        this.missed.add([ship.x - 1 , ship.y + i]);
-        this.missed.add([ship.x + 1 , ship.y + i]);
+        this.missed.add([ship.x - 1, ship.y + i]);
+        this.missed.add([ship.x + 1, ship.y + i]);
       }
 
       this.missed.add([ship.x, ship.y - 1]);
       this.missed.add([ship.x, ship.endY + 1]);
-      
+
     } else {
       for (let i = -1; i <= ship.length; i++) {
         this.missed.add([ship.x + i, ship.y - 1]);

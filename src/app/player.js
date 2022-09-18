@@ -1,7 +1,8 @@
 import { Gameboard } from './gameboard';
 
 class Player {
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.enemy = undefined;
     this.board = new Gameboard();
   }
@@ -13,7 +14,7 @@ class Player {
 
 class ComputerPlayer extends Player {
   constructor() {
-    super();
+    super('computer');
     this.attacks = new Set();
   }
 
@@ -41,7 +42,7 @@ class ComputerPlayer extends Player {
 
 class HumanPlayer extends Player {
   constructor() {
-    super();
+    super('human');
   }
 }
 

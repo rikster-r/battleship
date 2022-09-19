@@ -34,11 +34,8 @@ export class Gameboard {
     if (x < 1 || y < 1) return false;
     if (typeof x != 'number' || typeof y != 'number') return false;
 
-    for (let [shipId, ship] of this.ships.entries()) {
-      if (shipId === id) continue; //skip if checking for our ship itself
-      if (ship.length === undefined) continue;
-
-      for (let i = 0; i <= length; i++) { //loop for every cell of our ship
+    for (let ship of this.ships.values()) {
+      for (let i = 0; i < length; i++) { //loop for every cell of our ship
         if (vertical) {
           if (ship.hasCell(x, y + i)) return false;
         } else {

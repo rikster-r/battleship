@@ -22,7 +22,7 @@ function drop(e) {
 
 function changeDirection(e) {
   const target = e.target.closest('.ship-wrapper');
-  target.dataset.vertical = (target.dataset.vertical === 'true') ? '' : 'true';
+  target.dataset.vertical = (target.dataset.vertical) ? '' : 'true';
 }
 
 const display = new Display();

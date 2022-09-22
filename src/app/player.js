@@ -1,16 +1,17 @@
 import { Gameboard } from './gameboard';
+import { randomNumInRange } from './modules/randomNumInRange';
 
-class Player {
-  constructor(name) {
-    this.name = name;
-    this.enemy = undefined;
-    this.board = new Gameboard();
-  }
+  class Player {
+    constructor(name) {
+      this.name = name;
+      this.enemy = undefined;
+      this.board = new Gameboard();
+    }
 
-  makeMove(x, y) {
-    this.enemy.board.receiveAttack(x, y);
+    makeMove(x, y) {
+      this.enemy.board.receiveAttack(x, y);
+    }
   }
-}
 
 class ComputerPlayer extends Player {
   constructor() {
@@ -27,16 +28,12 @@ class ComputerPlayer extends Player {
     let x, y;
 
     do {
-      x = this.#randomNumInRange(1, 10);
-      y = this.#randomNumInRange(1, 10);
+      x = randomNumInRange(1, 10);
+      y = randomNumInRange(1, 10);
     } while (this.attacks.has([x, y]));
 
     this.attacks.add([x, y]);
     return [x, y];
-  }
-
-  #randomNumInRange(min, max) { //min, max included
-    Math.floor(Math.random() * (max - min + 1) + min);
   }
 }
 

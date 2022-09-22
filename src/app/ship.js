@@ -17,7 +17,11 @@ export class Ship {
     return this.hits.every(cell => cell === true);
   }
 
-  hasCell(x, y) {
-    return (this.x - 1 <= x) && (x <= this.endX + 1) && (this.y - 1 <= y) && (y <= this.endY + 1);
+  hasCell(x, y, around) {
+    if (around) {
+      return (this.x - 1 <= x) && (x <= this.endX + 1) && (this.y - 1 <= y) && (y <= this.endY + 1);
+    } else {
+      return (this.x <= x) && (x <= this.endX) && (this.y <= y) && (y <= this.endY);
+    }
   }
 }

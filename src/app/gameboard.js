@@ -1,7 +1,13 @@
 import { Ship } from './ship.js';
+import { randomNumInRange } from './modules/randomNumInRange.js';
 
 export class Gameboard {
   constructor() {
+    this.resetShipCoords();
+    this.missed = new Set();
+  }
+
+  resetShipCoords() {
     this.ships = new Map([
       [1, new Ship(1)],
       [2, new Ship(1)],
@@ -15,7 +21,21 @@ export class Gameboard {
       [7, new Ship(4)],
       [8, new Ship(4)],
     ]);
-    this.missed = new Set();
+  }
+
+  randomPlace() {
+    this.resetShipCoords();
+
+    this.ships.forEach((ship, id) => {
+      let x, y, vertical;
+
+      while (this.ships.get(id).x === undefined) {
+        x = randomNumInRange(1, 10);
+        y = randomNumInRange(1, 10);
+        vertical = Math.random() < 0.5 ? true : false;
+        this.changeShipCoords(id, x, y, vertical);
+      }
+    })
   }
 
   changeShipCoords(id, x, y, vertical = false) {
@@ -37,9 +57,9 @@ export class Gameboard {
     for (let ship of this.ships.values()) {
       for (let i = 0; i < length; i++) { //loop for every cell of our ship
         if (vertical) {
-          if (ship.hasCell(x, y + i)) return false;
+          if (ship.hasCell(x, y + i, true)) return false;
         } else {
-          if (ship.hasCell(x + i, y)) return false;
+          if (ship.hasCell(x + i, y, true)) return false;
         }
       }
     }
@@ -52,13 +72,12 @@ export class Gameboard {
     if (y < 1 || y > 10) return;
     let notFound = true;
 
-    for (const ship of this.ships.values()) { //used for because i needed break
+    for (const ship of this.ships.values()) { //used for because needed break statement
       if (ship.hasCell(x, y)) {
         const index = (ship.vertical) ? y - ship.y : x - ship.x;
         ship.hit(index);
         notFound = false;
 
-        if (ship.isSunk()) this.#missSurroundingCells(ship);
         break;
       }
     }
@@ -68,30 +87,11 @@ export class Gameboard {
     }
   }
 
-  #missSurroundingCells(ship) {
-    if (ship.vertical) {
-      for (let i = -1; i <= ship.length; i++) {
-        this.missed.add([ship.x - 1, ship.y + i]);
-        this.missed.add([ship.x + 1, ship.y + i]);
-      }
-
-      this.missed.add([ship.x, ship.y - 1]);
-      this.missed.add([ship.x, ship.endY + 1]);
-
-    } else {
-      for (let i = -1; i <= ship.length; i++) {
-        this.missed.add([ship.x + i, ship.y - 1]);
-        this.missed.add([ship.x + i, ship.y + 1]);
-      }
-
-      this.missed.add([ship.x - 1, ship.y]);
-      this.missed.add([ship.endX + 1, ship.y]);
-    }
-  }
-
   areShipsSunk() {
-    return this.ships.every(ship => {
-      ship.isSunk();
-    })
+    for (let ship of this.ships.values()) {
+      if (!ship.isSunk()) return false;
+    }
+
+    return true;
   }
 }

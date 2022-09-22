@@ -24,6 +24,7 @@
   </header>
   <div class="btn-wrapper">
     <button class="btn btn-rect-to-round" data-start-game>Start Game</button>
+    <button class="btn" data-random-place>Random Place</button>
   </div>
   <main class="centered">
     <div class="player-side">
@@ -156,6 +157,11 @@
       <h4 class="field-title">Computer board</h4>
     </div>
   </main>
+
+  <dialog data-game-end>
+    <p>You <span data-game-status></span>!</p>
+    <p>Reload the page to play again</p>
+  </dialog>
 </body>
 
 </html>

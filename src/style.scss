@@ -197,16 +197,18 @@ main {
 }
 
 .player-side {
-  .field * {
-    &[data-id] {
-      background-color: $second-clr;
-      border: 3px solid $main-clr;
-    }
+  .field *[data-id] {
+    background-color: $second-clr;
+    border: 3px solid $main-clr;
   }
 
-  .field-title {
-    grid-column-start: 2;
+  .field *.sunk {
+    background-color: $main-clr;
   }
+}
+
+.field-title {
+  grid-column-start: 2;
 }
 
 .computer-side .field *:hover {
@@ -276,7 +278,7 @@ dialog[open] {
   border-radius: 3rem;
   min-width: 450px;
   min-height: 200px;
-  
+
   font-size: 1.5rem;
 }
 

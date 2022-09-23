@@ -205,12 +205,12 @@ main {
   .field *.sunk {
     background-color: $main-clr;
   }
-}
 
-.field-title {
-  grid-column-start: 2;
+  .field-title {
+    grid-column-start: 2;
+  }
+  
 }
-
 .computer-side .field *:hover {
   cursor: crosshair;
   background-color: $second-clr;

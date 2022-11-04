@@ -60,8 +60,18 @@ header {
     align-items: center;
   }
 
+  .link span {
+    @media (max-width: 30rem) {
+      display: none;
+    }
+  }
+
   svg {
     font-size: 1.3rem;
+
+    @media (max-width: 30rem) {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -80,6 +90,10 @@ header {
     font-size: inherit;
     cursor: pointer;
 
+    @media (max-width: 30rem) {
+      width: 150px;
+    }
+
     &:hover,
     &:focus-within {
       border-radius: 60px;
@@ -95,6 +109,11 @@ main {
   justify-content: space-around;
   gap: 3rem;
   margin-bottom: 3rem;
+
+  @media (max-width: 65rem) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   &.centered {
     justify-content: center;
@@ -115,11 +134,15 @@ main {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-
     width: 350px;
     height: 350px;
     border: 3px solid $second-clr;
     position: relative;
+
+    @media (max-width: 30rem) {
+      width: 250px;
+      height: 250px;
+    }
 
     * {
       border: 1px solid $second-clr;
@@ -159,15 +182,18 @@ main {
         }
 
         &::before {
-          content: "✕";
+          content: '✕';
           color: $main-clr;
           font-size: 1.5rem;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-        }
 
+          @media (max-width: 30rem) {
+            font-size: 1.1rem;
+          }
+        }
       }
 
       &.sunk {
@@ -178,15 +204,18 @@ main {
         }
 
         &::before {
-          content: "✕";
+          content: '✕';
           color: $white;
           font-size: 1.5rem;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-        }
 
+          @media (max-width: 30rem) {
+            font-size: 1.1rem;
+          }
+        }
       }
     }
   }
@@ -209,7 +238,6 @@ main {
   .field-title {
     grid-column-start: 2;
   }
-  
 }
 .computer-side .field *:hover {
   cursor: crosshair;
@@ -241,7 +269,7 @@ main {
     }
 
     &.active .cube {
-      background-color: $main-clr  !important;
+      background-color: $main-clr !important;
     }
 
     & .cell {
@@ -249,13 +277,18 @@ main {
       height: 35px;
       background-color: $second-clr;
       border: 3px solid $main-clr;
+
+      @media (max-width: 30rem) {
+        width: 25px;
+        height: 25px;
+      }
     }
   }
 
-  .ship-wrapper[draggable="true"] {
+  .ship-wrapper[draggable='true'] {
     gap: 0;
 
-    &[data-vertical="true"] {
+    &[data-vertical='true'] {
       flex-direction: column;
       align-items: flex-start;
     }
@@ -280,25 +313,4 @@ dialog[open] {
   min-height: 200px;
 
   font-size: 1.5rem;
-}
-
-@media (max-width: 50rem) {
-  main {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (max-width: 28rem) {
-  .link {
-    span {
-      display: none;
-    }
-  }
-
-  header {
-    svg {
-      font-size: 1.5rem;
-    }
-  }
 }
